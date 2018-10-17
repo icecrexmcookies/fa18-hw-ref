@@ -13,8 +13,11 @@ most_common_char
 Given an input string s, return the most common character in s.
 """
 def most_common_char(s):
+	s = s.casefold()
+	dict_char = {}
+	for i in range(len(s)):
+		if
 	pass
-
 
 """
 alphabet_finder
@@ -37,6 +40,7 @@ Example 2:
 		None
 """
 def alphabet_finder(s):
+	s = s.casefold()
 	pass
 
 

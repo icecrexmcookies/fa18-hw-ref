@@ -7,7 +7,27 @@ Return None if the matrix product does not exist.
 As with math, assume that indices are in [row][column] format, so each inner list is a row.
 """
 def matrix_multiply(arr0, arr1):
-	pass
+    #checks for null arrays
+    if not arr0 or not arr1 :
+        return None
+    #checks for empty arrays
+    if len(arr0) == 0 or len(arr1) == 0 :
+        return None
+    if len(arr0[0]) != len(arr1):
+        return None
+
+    r = []
+    m = []
+
+    for i in range(len(arr0)):
+        for j in range(len(arr1[0])):
+            sum = 0
+            for k in range(len(arr1)):
+                sum = sum + (arr0[i][k] * arr1[k][j])
+            r.append(sum)
+        m.append(r)
+        r = []
+    return m
 
 """
 nth_largest_element
@@ -16,7 +36,21 @@ Given an input list `arr`, and index `n`, return the nth largest element.
 Avoid using built-in sorting methods.
 """
 def nth_largest_element(arr, n):
-	pass
+    if not arr or not n:
+        return None
+
+    if n > len(arr):
+        return None
+
+    if len(arr) == 0:
+        return None
+
+    if n == 1:
+        return max(arr)
+    m = max(arr)
+
+    new_arr = list(filter(lambda a: a != m, arr))
+    return(nth_largest_element(new_arr, n-1))
 
 """
 reverse_block
@@ -29,10 +63,31 @@ Example:
 	Return:
 		[3,2,1, 6,5,4, 7]
 	(spacing added for emphasis)
-
 """
 def reverse_block(arr, n):
-	pass
+    if n <= 0:
+        return []
+    if not arr:
+        return []
+    if len(arr) == 0:
+        return []
+    if n > len(arr):
+        return []
+
+    i = 0
+
+    while(i < len(arr)):
+        left = i
+        right  = min(i + n - 1, len(arr) - 1)
+
+        while (left < right):
+
+            arr[left], arr[right] = arr[right], arr[left]
+            left += 1
+            right -= 1
+        i += n
+
+    return arr
 
 """
 subset_sum
@@ -53,7 +108,23 @@ Example 2:
 		False
 """
 def subset_sum(arr, target):
-	pass
+    #checks for null array
+    if not arr:
+        return False
+
+    #checks for empty array
+    if len(arr) == 0:
+        return False
+
+    else:
+        if arr[0] == target:
+            return True
+        else:
+            with_v = subset_sum(arr[1:], (target - arr[0]))
+            if with_v:
+                return True
+            else:
+                return subset_sum(arr[1:], target)
 
 """
 spiral_matrix
@@ -71,5 +142,51 @@ Example:
 		[a,b,c,d,e, j,o,t,y, x,w,v,u, p,k,f, g,h,i, n,s, r,q, l, m]
 """
 def spiral_matrix(arr):
-	pass
+    #checks for null array
+    if not arr:
+        return []
 
+    #checks for empty array
+    if len(arr) == 0:
+        return []
+
+    #starting row index
+    k = 0
+    #starting coloumn index
+    l = 0
+    #end row index
+    m = len(arr)
+    #end coloumn index
+    n = len(arr[0])
+
+    result = []
+
+    while (k < m and l < n):
+
+        #the first row from the remainting rows
+        for i in range(l, n):
+            result.append(arr[k][i])
+
+        k += 1
+
+        #last coloumn from the remaining rows
+        for i in range(k, m):
+            result.append(arr[i][n-1])
+
+        n-=1
+
+        #last row of the remaining rows
+        if (k < m):
+            for i in range(n - 1, (l - 1), -1):
+                result.append(arr[m-1][i])
+
+            m -= 1
+
+        #first coloumn of the remaining rows
+        if (l < n):
+            for i in range(m - 1, k - 1, -1):
+                result.append(arr[i][l])
+
+            l += 1
+
+    return result
